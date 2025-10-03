@@ -2,7 +2,10 @@
 
 static __attribute((noinline)) uint64_t resolve_import(const char* module, const char* function)
 {
-    asm volatile("ebreak"); // TODO: replace with scall
+    register const char* a0 asm("a0") = module;
+    register const char* a1 asm("a1") = function; // unused
+    register uint64_t    a7 asm("a7") = 10105;
+    asm volatile("scall" : "+r"(a0) : "r"(a1), "r"(a7) : "memory");
 }
 
 static __attribute((noinline)) uint64_t host_call(uint64_t fn, uint64_t args[13])
@@ -24,6 +27,9 @@ void _start() __attribute__((section(".text.start")));
 void _start()
 {
     // TODO: call resolve_import and host_call here
+    // host_call(resolve_import(0, "puts"), "大家好");
+    int a = resolve_import("0", "puts");
+    printf("%d", &a);
     exit(0);
     asm volatile("ebreak");
 }
