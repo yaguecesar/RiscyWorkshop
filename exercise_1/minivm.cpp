@@ -184,8 +184,23 @@ static void handler_mul(VMContext& ctx)
 #define OR(dst, op1, op2)        OPCODE(7), dst, op1, op2
 #define MUL(dst, op1, op2)       OPCODE(8), dst, op1, op2
 
+constexpr uint8_t bytecode1[] = {
+    MOVIMM(REG(2), 0xFFFFFFFFFFFFFFFF), XOR(REG(1), REG(1), REG(2)), ADD(REG(0), REG(0), REG(1)), RET(REG(0))
+
+};
+
 /*
 constexpr uint8_t bytecode1[] = {
+    MUL(REG(0), REG(0), REG(1)), RET(REG(0))
+
+};
+
+constexpr uint8_t bytecode1[] = {
+    ADD(REG(0), REG(0), REG(1)), RET(REG(0))
+
+};
+
+
     MOVIMM(REG(254), 0x2),
     CMP(REG(255), REG(0), REG(254)),
     JCC(REG(255), 0), // jumps to LABEL_PLACEHOLDER(0) if REG(255) != 0
@@ -194,15 +209,15 @@ constexpr uint8_t bytecode1[] = {
     ADD(REG(0), REG(0), REG(1)),
     MOVIMM(REG(0), 0x1122334455667788),
     RET(REG(0)),
-};
-*/
 
+*/
+/*
 constexpr uint8_t bytecode1[] = {
     OR(REG(4), REG(0), REG(1)),
     XOR(REG(5), REG(2), REG(3)),
     ADD(REG(6), REG(4), REG(5)),
     RET(REG(6)),
-};
+};*/
 
 constexpr static VMLabels labels1 = VMLabels(bytecode1);
 
